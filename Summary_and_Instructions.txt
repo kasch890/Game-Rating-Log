@@ -1,0 +1,24 @@
+The Game Rating Log allows users to create, manage, and export a personal log of video games, their ratings, and some other choice information if desired. This is useful for avid gamers and casual game developers (like myself) who wish to reflect on the games that they played in the past and review some of the things that they did and didn't like about certain games by viewing the game's comments in the log.
+
+There are two files, the first is my class file Game.py . This defines the attributes '__name' , 'rating', 'console', and 'comments'. It also defines several methods that are meant for the program to access and change these attributes as needed. There are two unit tests at the bottom of the file to test that the games are being instantiated correctly as well as checking that a few methods work correctly.
+
+The second file is the actual rating log program Game_Log.py . This is the program that is meant to be run in order to create and manage a game log. There are two variables game_list and game_name_set that are defined at the beginning to be used throughout the program to hold the game log information. There are also methods such as add_game() and remove_game() that allow the user to change the variables and their current game log. 
+
+When Game_Log.py is run, the program starts with a 'home' type screen prompting the user for an input and offers 8 options that are fairly self explanatory. The home options are:
+(1) Add game rating
+(2) Remove game rating
+(3) Update existing game rating
+(4) View list of existing games
+(5) View single game rating
+(6) View all game ratings
+(7) Export game rating log data
+(8) Exit Program
+
+The program then executes the code associated with the user's choice. Sometimes further user input is required and the program will either prompt until there is a valid input for the situation or will print a message and return to the home option screen. 
+
+Side notes:
+- If the user picks (8) without exporting the data it will all be lost, this is something I wish to change in the future or at least require a confirmation input before exiting. 
+- There is also no option to import data (yet)
+- add_comments() is defined in my Game.py but is not used in Game_Log, despite this my files meet the project guidelines it is something that I will add as an option for the home screen in the future
+
+To run the program simply run the Game_Log.py file!
