@@ -41,7 +41,7 @@ def full_export_json(filename = "game_ratings.json"):
                 "name": game._name,
                 "rating": game.rating,
                 "console": game.console,
-                "comments": game.comments
+                "notes": game.notes
             }
     with open(filename, 'w', encoding="utf-8") as f:
         json.dump(data, f, indent=4)
@@ -60,7 +60,7 @@ def full_import_json(filename="game_ratings.json"):
                     rating=game_data["rating"],
                     console=game_data["console"]
                 )
-                g.comments = game_data["comments"]
+                g.notes = game_data["notes"]
                 add_game(g)
     except Exception as e:
         print(f"Failed to import data due to error: {e}")
@@ -93,7 +93,7 @@ if __name__ == "__main__":
                [vl]     -   View list of games
                [export] -   Export game log data
                [import] -   Import game log data
-               [exit]- "Exit Program" \n
+               [exit]   -   Exit Program \n
               Input command here: 
               ''')
 
@@ -115,24 +115,30 @@ if __name__ == "__main__":
             else: print(f"The game {key_to_check} "
                         "does not exist in your rating log...")
             
-        elif user_input == "update":
+        elif user_input == "edit":
             #Check if game exists and update its rating, prompting
             #user until valid input
             key_to_check = input("What game would you "
-                                 "like to update the rating of? : ").lower()
+                                 "like to edit? : ").lower()
             if game_exists(key_to_check):
-                new_rating = input(f"Input your new rating for "
-                                   f"{key_to_check} here: ")
-                game_list[key_to_check].update_rating(new_rating)
+                #Ask what they would like to update: status, rating, console, notes
+                update_choice = input("Would you like to update the [s] status, [r] rating, [c] console, or [n] notes? : ").lower()
+                if update_choice == 's':
+                    new_status = input(f"Enter new status for [key_to_check] : ")
+                    game_list[key_to_check].update_status(new_status)
+                if update_choice == 'r':
+                    new_rating = input(f"Input your new rating for "
+                                       f"{key_to_check} here: ")
+                    game_list[key_to_check].update_rating(new_rating)
             else: print(f"The game {key_to_check} "
                         "does not exist in your rating log...")
             
-        elif user_input == "comment":
+        elif user_input == "note":
             game_to_check = input("What game would you like to add a"
-                                  " comment to?:")
+                                  " note to?:")
             if game_exists(game_to_check):
-                print("game exists, adding comment now")
-                game_list[game_to_check].add_comment()
+                print("game exists, adding note now")
+                game_list[game_to_check].add_note()
             else: print(f"The game {game_to_check} "
                         "does not exist in your rating log...")
                 

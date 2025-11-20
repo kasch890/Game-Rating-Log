@@ -12,7 +12,7 @@ class Game():
     
     def __init__(self, name=None, status=None, rating=None, console=None):
         '''Instantiates a Game object and prompts user for the name and rating,
-        adds an empty comment list attribute,
+        adds an empty notes list attribute,
         and sets the attribute console="" '''
         #get a valid name input
         while True:
@@ -76,22 +76,28 @@ class Game():
         self.status = status
         self.rating = rating
         self.console = console
-        self.comments = []
+        self.notes = []
         
     
-    def add_comment(self,comment=None):
-        '''Adds a comment to comments attribute of the Game 
+    def add_note(self,note=None):
+        '''Adds a note to notes attribute of the Game
         (which is a list) by asking for user input'''
-        if comment == None:
-            comment = input("Enter comment here: ")
-        comment = str(comment)
-        self.comments.append(comment)
+        if note == None:
+            note = input("Enter new note here: ")
+        note = str(note)
+        self.notes.append(note)
     
     
     def update_rating(self, new_rating = None):
         '''Updates the rating of the game by taking user input and 
         validating that input using __validate__rating()'''
         self.rating = self.__validate__rating(new_rating)
+        print(f"Rating for {self._name} updated to {self.rating}")
+
+    def update_status(self, new_status=None):
+        '''Updates the status of the game through user input'''
+        self.status = new_status
+        print(f"Status for {self._name} updated to {self.status}")
             
     #private method
     def __validate__rating(self, new_rating=None):
@@ -141,14 +147,14 @@ class Game():
     def __repr__(self):
         '''returns a string with a border above and bwloe for readability,
         the game, rating, and console played on with their respective values,
-        and each comment in a bullet point format'''
+        and each note in a bullet point format'''
         border = "~ "*12
-        body = f"\n Game: {self._name}\n Rating: {self.rating}\n"\
+        body = f"\n Game: {self._name}\n Status: {self.status}\n Rating: {self.rating}\n"\
         f" Console played on: {self.console}\n"
-        rep_comments = ' Comments: \n'
-        for item in self.comments:
-            rep_comments += "\t-" + item +"\n"
-        return border+body+rep_comments+border
+        rep_notes = ' Notes: \n'
+        for item in self.notes:
+            rep_notes += "\t-" + item +"\n"
+        return border+body+rep_notes+border
         
         
 
