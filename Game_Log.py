@@ -63,26 +63,28 @@ if __name__ == "__main__":
     while not finished:
         print("~ "*24 )
         user_input = input('''What would you like to do?\n
-              (1) Add game rating
-              (2) Remove game rating
-              (3) Update existing rating
-              (4) Add comment to game
-              (5) View list of existing games
-              (6) View single game 
-              (7) View all games
-              (8) Export game rating log data
-              (9) Exit Program \n
-              Input number here: 
+               - "Add" game
+               - "Remove" game
+               - "Update" existing game
+               - "Comment" addition to existing game
+               - "View list" of game names
+               - "View game"
+               - "View all games"
+               - "Export" game log data
+               - "Exit Program" \n
+              Input command here: 
               ''')
+
+        user_input = user_input.lower()
         #All non valid inputs reset the while loop
         
-        if user_input == "1":
+        if user_input == "add":
             #prompt for game info and add to game_list
             next_game = Game()
             add_game(next_game)
             continue
         
-        elif user_input == "2":
+        elif user_input == "remove":
             #Check if game exists in list and remove it if it does
             key_to_check = input("What is the game "
                                 "you would like to remove?: ").lower()
@@ -91,7 +93,7 @@ if __name__ == "__main__":
             else: print(f"The game {key_to_check} "
                         "does not exist in your rating log...")
             
-        elif user_input == "3":
+        elif user_input == "update":
             #Check if game exists and update its rating, prompting
             #user until valid input
             key_to_check = input("What game would you "
@@ -103,7 +105,7 @@ if __name__ == "__main__":
             else: print(f"The game {key_to_check} "
                         "does not exist in your rating log...")
             
-        elif user_input == "4":
+        elif user_input == "add comment":
             game_to_check = input("What game would you like to add a"
                                   " comment to?:")
             if game_exists(game_to_check):
@@ -112,13 +114,13 @@ if __name__ == "__main__":
             else: print(f"The game {game_to_check} "
                         "does not exist in your rating log...")
                 
-        elif user_input == "5":
+        elif user_input == "view list":
             #Prints the list of the names of current games in log 
             print("Current games in log: ")
             for item in game_name_set:
                 print(f"\n {item}")
                 
-        elif user_input == "6":
+        elif user_input == "view game":
             #Prints a single game review if game exists in log
             game_to_view = input("Which game "
                                  "would you like to view? : ").lower()
@@ -127,7 +129,7 @@ if __name__ == "__main__":
             else: print(f"The game {game_to_view} "
                         "does not exist in your rating log...")
             
-        elif user_input == "7":
+        elif user_input == "view all games":
             #Asks user if they want to view the list in order of 
             #input or rating and prints the game log
             choice = input("Enter '1' if you want the log in order of when "\
@@ -144,7 +146,7 @@ if __name__ == "__main__":
             else:
                 print("Sorry, you did not select a valid option...")
             
-        elif user_input == "8":
+        elif user_input == "export":
             #Ask user how they would like to export the data and call
             #corresponding method
             confirm = input("Enter 'C' to confirm full export:")
@@ -153,10 +155,16 @@ if __name__ == "__main__":
             else:
                 print("Canceling export...")
                 
-        elif user_input == "9":
+        elif user_input == "exit program":
             #Exit the program
-            finished = True
-            print ("***Program Terminated***")
+            confirm = input("Enter 'C' to confirm program exit:")
+            if confirm.upper() == 'C':
+                finished = True
+                print("***Program Terminated***")
+
+            else:
+                print("Canceling exit...")
+
         else:
             print("Invalid option. Please try again.")
         
