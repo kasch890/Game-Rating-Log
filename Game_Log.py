@@ -41,6 +41,7 @@ def full_export_json(filename = "game_ratings.json"):
                 "name": game._name,
                 "rating": game.rating,
                 "console": game.console,
+                "status": game.status,
                 "notes": game.notes
             }
     with open(filename, 'w', encoding="utf-8") as f:
@@ -57,6 +58,7 @@ def full_import_json(filename="game_ratings.json"):
             for game_data in data.values():
                 g = Game(
                     name=game_data["name"],
+                    status = game_data["status"],
                     rating=game_data["rating"],
                     console=game_data["console"]
                 )
@@ -142,23 +144,8 @@ if __name__ == "__main__":
                             game_list[key_to_check].add_note(note_input)
             else: print(f"The game {key_to_check} "
                         "does not exist in your rating log...")
-            
-        elif user_input == "note":
-            game_to_check = input("What game would you like to add a"
-                                  " note to?:")
-            if game_exists(game_to_check):
-                print("game exists, adding note now")
-                game_list[game_to_check].add_note()
-            else: print(f"The game {game_to_check} "
-                        "does not exist in your rating log...")
-                
-        elif user_input == "view list":
-            #Prints the list of the names of current games in log 
-            print("Current games in log: ")
-            for item in game_name_set:
-                print(f"\n {item}")
-                
-        elif user_input == "view game":
+
+        elif user_input == "vg":
             #Prints a single game review if game exists in log
             game_to_view = input("Which game "
                                  "would you like to view? : ").lower()
@@ -166,28 +153,27 @@ if __name__ == "__main__":
                 print(game_list[game_to_view])
             else: print(f"The game {game_to_view} "
                         "does not exist in your rating log...")
-            
-        elif user_input == "view all games":
-            #Asks user if they want to view the list in order of 
-            #input or rating and prints the game log
-            choice = input("Enter '1' if you want the log in order of when "\
-                           "they were added and '2' if you want them"\
-                               " sorted by rating: ")
-            if choice=='1':
-                print("Here is your game rating log in order of input:")
+
+        elif user_input == "vl":
+            #Prints the list of the names of current games in log
+            sort_choice = input("Would you like to sort the list first? [y] or [n] : ").lower()
+            if sort_choice == 'y':
+                game_list = sort_by_rating()
+            view_choice = input("Would you like simple [s] or detailed [d] list? : ").lower()
+            if view_choice == 's':
+                print("Current games in log: ")
+                for key in game_list:
+                    print(f"\n {key}")
+            elif view_choice == 'd':
                 for game in game_list:
-                    print(game_list[game])
-            elif choice=='2':
-                sorted_list = sort_by_rating()
-                for game in sorted_list:
                     print(game_list[game])
             else:
                 print("Sorry, you did not select a valid option...")
-            
+
         elif user_input == "export":
             #Ask user how they would like to export the data and call
             #corresponding method
-            confirm = input("Enter 'C' to confirm full export:")
+            confirm = input("Enter 'C' to confirm full .json export:")
             if confirm.upper()=='C':
                 full_export_json()
             else:

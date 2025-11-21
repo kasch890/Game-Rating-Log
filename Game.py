@@ -8,12 +8,66 @@ Created on Wed Aug 13 19:38:48 2025
 class Game():
     '''This class holds a game review to be included in our game log. 
     Games have properties that may and may not be updated'''
-    
-    
+
+    #CHAT GPT INIT TO FIX STATUS ERROR ON IMPORT
+    # def __init__(self, name=None, status=None, rating=None, console=None, interactive=True):
+    #     """interactive=False means we are loading from JSON and should not ask for input."""
+    #
+    #     if not interactive:
+    #         # Trust provided values and skip prompting
+    #         self._name = name
+    #         self.status = status
+    #         self.rating = rating
+    #         self.console = console
+    #         self.notes = []
+    #         return
+    #
+    #     # ---- INTERACTIVE MODE ----
+    #     # get name
+    #     while True:
+    #         try:
+    #             if name is None:
+    #                 name = input("Enter the game name: ").lower()
+    #             if not isinstance(name, str):
+    #                 raise TypeError("Name must be a string.")
+    #             break
+    #         except TypeError as e:
+    #             print(e)
+    #             name = None
+    #
+    #     # get status
+    #     while True:
+    #         try:
+    #             if status is None:
+    #                 status = input("Enter the status (Played, Watched, Wishlist): ").lower()
+    #             if not isinstance(status, str):
+    #                 raise TypeError("Status must be a string.")
+    #             break
+    #         except TypeError as e:
+    #             print(e)
+    #             status = None
+    #
+    #     print("Game successfully created for log!")
+    #     self._name = name
+    #     self.status = status
+    #     self.rating = rating
+    #     self.console = console
+    #     self.notes = []
+
     def __init__(self, name=None, status=None, rating=None, console=None):
         '''Instantiates a Game object and prompts user for the name and rating,
         adds an empty notes list attribute,
         and sets the attribute console="" '''
+        # If we are loading existing data (no user input allowed)
+        if name is not None and status is not None:
+            # Direct assignment mode
+            self._name = name
+            self.status = status
+            self.rating = rating
+            self.console = console
+            self.notes = []
+            return
+
         #get a valid name input
         while True:
             try:
@@ -22,7 +76,7 @@ class Game():
                 if not isinstance(name, str):
                      raise TypeError("Name must be a string.")
                 break
-            
+
             except TypeError as e:
                 print(e)
                 name = None
@@ -39,38 +93,6 @@ class Game():
                 print(e)
                 status = None
 
-        #[NO LONGER NECESSARY FOR GAME CREATION]
-        #get a valid rating input
-        # while True:
-        #     try:
-        #         if rating==None:
-        #             rating_input = input(f"Enter your rating for {name}: ")
-        #             try:
-        #                 rating = float(rating_input)
-        #             except ValueError:
-        #                 raise ValueError("Rating must be a number between 0.0 and 5.0")
-        #         if not (0.0 <= rating <=5.0):
-        #             raise ValueError("Rating must be between 0.0 and 5.0")
-        #         break
-        #     except ValueError as e:
-        #         print(e)
-        #         rating=None
-
-        #[NO LONGER NECESSARY FOR GAME CREATION]
-        # get valid console input
-        #
-        # while True:
-        #     try:
-        #         if console==None:
-        #             console = input("Enter the console you played on: ").lower()
-        #         if not isinstance(console, str):
-        #              raise TypeError("Console must be a string.")
-        #         break
-        #
-        #     except TypeError as e:
-        #         print(e)
-        #         console = None
-        #
         print("Game successfully created for log!")
         self._name = name
         self.status = status
