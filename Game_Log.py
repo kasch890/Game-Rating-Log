@@ -136,7 +136,7 @@ if __name__ == "__main__":
                 #Ask what they would like to update: status, rating, console, notes
                 update_choice = input("Would you like to update the [s] status, [r] rating, [c] console, or [n] notes? : ").lower()
                 if update_choice == 's':
-                    new_status = input(f"Enter new status for [key_to_check] : ")
+                    new_status = input(f"Enter new status for {key_to_check} : ")
                     game_dict[key_to_check].update_status(new_status)
                 if update_choice == 'r':
                     new_rating = input(f"Input new rating for {key_to_check} : ")
