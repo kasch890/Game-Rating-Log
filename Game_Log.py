@@ -8,18 +8,18 @@ from Game import *
 import os
 import json
 
-game_list = {}
+game_dict = {}
 game_name_set = set()
 
 
 def add_game(new_game:Game):
     '''Adds a game to the current game list'''
-    game_list[new_game._name] = new_game
+    game_dict[new_game._name] = new_game
     game_name_set.add(new_game._name)
     
 def remove_game(game_name):
     '''Removes a game from the current game list'''
-    del game_list[game_name]
+    del game_dict[game_name]
     
     
 def full_export_txt(filename = "game_ratings.txt"):
@@ -27,7 +27,7 @@ def full_export_txt(filename = "game_ratings.txt"):
     a readable format'''
     try:    
         with open(filename, 'w', encoding="utf-8") as file:
-            for item in game_list.values():
+            for item in game_dict.values():
                 file.write(repr(item) + "\n\n")
     except Exception as e:
         print(f"Failed to export data due to error: {e}")
@@ -36,7 +36,7 @@ def full_export_txt(filename = "game_ratings.txt"):
 
 def full_export_json(filename = "game_ratings.json"):
     data = {}
-    for name, item in game_list.items():
+    for name, item in game_dict.items():
         data[name] = {
             "name": item._name,
             "rating": item.rating,
@@ -49,11 +49,11 @@ def full_export_json(filename = "game_ratings.json"):
     print(f"Exported current game rating log to {filename}")
 
 def full_import_json(filename="game_ratings.json"):
-    global game_list, game_name_set
+    global game_dict, game_name_set
     try:
         with open(filename, "r", encoding="utf-8") as f:
             data = json.load(f)
-            game_list.clear()
+            game_dict.clear()
             game_name_set.clear()
             for game_data in data.values():
                 g = Game(
@@ -67,12 +67,22 @@ def full_import_json(filename="game_ratings.json"):
     except Exception as e:
         print(f"Failed to import data due to error: {e}")
     else:
-        print(f"Imported {len(game_list)} games from {filename}")
+        print(f"Imported {len(game_dict)} games from {filename}")
 
+#old sort function
+# def sort_by_rating():
+#     '''Returns the sorted list of games using the ratings'''
+#     return sorted(game_dict, reverse=True)
 
-def sort_by_rating():
-    '''Returns the sorted list of games using the ratings'''
-    return sorted(game_list, reverse=True)
+def sort_by_name():
+    temp_dict ={}
+    sorted_keys = sorted(game_dict.keys())
+    for key in sorted_keys:
+        temp_dict[key] = game_dict[key]
+    game_dict.clear()
+    game_dict.update(temp_dict)
+    return game_dict
+
 
 def game_exists(game_to_check:str):
     if game_to_check in game_name_set:
@@ -103,7 +113,7 @@ if __name__ == "__main__":
         #All non valid inputs reset the while loop
         
         if user_input == "add":
-            #prompt for game info and add to game_list
+            #prompt for game info and add to game_dict
             next_game = Game()
             add_game(next_game)
             continue
@@ -127,13 +137,13 @@ if __name__ == "__main__":
                 update_choice = input("Would you like to update the [s] status, [r] rating, [c] console, or [n] notes? : ").lower()
                 if update_choice == 's':
                     new_status = input(f"Enter new status for [key_to_check] : ")
-                    game_list[key_to_check].update_status(new_status)
+                    game_dict[key_to_check].update_status(new_status)
                 if update_choice == 'r':
                     new_rating = input(f"Input new rating for {key_to_check} : ")
-                    game_list[key_to_check].update_rating(new_rating)
+                    game_dict[key_to_check].update_rating(new_rating)
                 if update_choice == 'c':
                     new_console = input(f"Input new console for {key_to_check} : ")
-                    game_list[key_to_check].update_console(new_console)
+                    game_dict[key_to_check].update_console(new_console)
                 if update_choice == 'n':
                     notes_done = False
                     while not notes_done:
@@ -141,7 +151,7 @@ if __name__ == "__main__":
                         if note_input == 'cancel':
                             notes_done = True
                         else:
-                            game_list[key_to_check].add_note(note_input)
+                            game_dict[key_to_check].add_note(note_input)
             else: print(f"The game {key_to_check} "
                         "does not exist in your rating log...")
 
@@ -150,7 +160,7 @@ if __name__ == "__main__":
             game_to_view = input("Which game "
                                  "would you like to view? : ").lower()
             if game_exists(game_to_view):
-                print(game_list[game_to_view])
+                print(game_dict[game_to_view])
             else: print(f"The game {game_to_view} "
                         "does not exist in your rating log...")
 
@@ -158,15 +168,15 @@ if __name__ == "__main__":
             #Prints the list of the names of current games in log
             sort_choice = input("Would you like to sort the list first? [y] or [n] : ").lower()
             if sort_choice == 'y':
-                game_list = sort_by_rating()
+                game_dict = sort_by_name()
             view_choice = input("Would you like simple [s] or detailed [d] list? : ").lower()
             if view_choice == 's':
                 print("Current games in log: ")
-                for key in game_list:
+                for key in game_dict:
                     print(f"\n {key}")
             elif view_choice == 'd':
-                for game in game_list:
-                    print(game_list[game])
+                for game in game_dict:
+                    print(game_dict[game])
             else:
                 print("Sorry, you did not select a valid option...")
 

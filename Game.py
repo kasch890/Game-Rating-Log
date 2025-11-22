@@ -160,14 +160,14 @@ class Game():
     def __gt__(self, other):
         '''Defines greater than for a Game by using the rating values'''
         if isinstance(other, Game):
-            return self.rating > other.rating
+            return self.__name__ > other.__name__
         raise TypeError(f"Cannot compare Game with {type(other).__name__}")
         
     def __eq__(self, other):
         '''Defines equivalence comparison for a Game
         by using the rating values'''
         if isinstance(other, Game):
-            return self.rating == other.rating
+            return self.__name__ == other.__name__
         raise TypeError(f"Cannot compare Game with {type(other).__name__}")
                 
     def __repr__(self):
