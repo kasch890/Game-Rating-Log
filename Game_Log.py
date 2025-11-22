@@ -27,8 +27,8 @@ def full_export_txt(filename = "game_ratings.txt"):
     a readable format'''
     try:    
         with open(filename, 'w', encoding="utf-8") as file:
-            for game in game_list.values():
-                file.write(repr(game) + "\n\n")
+            for item in game_list.values():
+                file.write(repr(item) + "\n\n")
     except Exception as e:
         print(f"Failed to export data due to error: {e}")
     else:
@@ -36,13 +36,13 @@ def full_export_txt(filename = "game_ratings.txt"):
 
 def full_export_json(filename = "game_ratings.json"):
     data = {}
-    for name, game in game_list.items():
+    for name, item in game_list.items():
         data[name] = {
-            "name": game._name,
-            "rating": game.rating,
-            "console": game.console,
-            "status": game.status,
-            "notes": game.notes
+            "name": item._name,
+            "rating": item.rating,
+            "console": item.console,
+            "status": item.status,
+            "notes": item.notes
         }
     with open(filename, 'w', encoding="utf-8") as f:
         json.dump(data, f, indent=4)
